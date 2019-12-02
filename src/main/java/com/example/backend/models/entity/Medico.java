@@ -1,10 +1,5 @@
 package com.example.backend.models.entity;
 
-import java.util.Date;
-
-
-
-
 public class Medico extends Usuario {
 
     private String especialidad;

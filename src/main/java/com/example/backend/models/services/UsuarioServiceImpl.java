@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.example.backend.models.dao.IUsuarioDAO;
 import com.example.backend.models.entity.Medico;
 import com.example.backend.models.entity.Usuario;
-import com.example.backend.controllers.UsuarioRestController;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {

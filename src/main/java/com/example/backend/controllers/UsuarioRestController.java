@@ -1,21 +1,10 @@
 package com.example.backend.controllers;
 
 import java.util.List;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-//import sun.misc.BASE64Decoder;
-//import sun.misc.BASE64Encoder;
-import java.util.Base64;
 import javax.validation.Valid;
 
 import org.bson.types.ObjectId;
@@ -91,7 +80,6 @@ public class UsuarioRestController {
 			throws UnsupportedEncodingException {
 		RespuestaLogin respuestaLogin = new RespuestaLogin();
 		List<Usuario> listaUsuarios = usuarioService.findAll();
-		Rol rol = new Rol();
 
 		dni = encriptador.encriptarDni(dni);
 		password = encriptador.encriptarPassword(password);
@@ -99,7 +87,7 @@ public class UsuarioRestController {
 		for (Usuario u : listaUsuarios) {
 			if (u.getDni().equals(dni) && u.getPassword().equals(password)) {
 				u = encriptador.desencriptarUsuario(u);
-				rol = rolService.findRolByNombre(u.getTipo());
+				Rol rol = rolService.findRolByNombre(u.getTipo());
 				respuestaLogin.setUsuario(u);
 				respuestaLogin.setRol(rol);
 				respuestaLogin.setLoginPasado(true);

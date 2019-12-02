@@ -1,7 +1,6 @@
 package com.example.backend.controllers;
 
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import com.example.backend.models.entity.Cita;
 import com.example.backend.models.entity.Especialidad;
 import com.example.backend.models.entity.Horario;
 import com.example.backend.models.entity.Medico;
-import com.example.backend.models.entity.Usuario;
 import com.example.backend.models.services.ICitaService;
 import com.example.backend.models.services.IEspecialidadService;
 import com.example.backend.models.services.IHorarioService;
@@ -90,10 +88,9 @@ public class CitaRestController {
 	 */
 	@GetMapping("/citas/paciente/{dni}")
 	public List<Cita> getCitasPacienteByid(@PathVariable("dni") String dni) throws UnsupportedEncodingException {
-		List<Cita> listaCitas = new ArrayList<Cita>();
 		dni = encriptador.encriptarDni(dni);
-		listaCitas = citaService.findCitasByDniPaciente(dni);
-		for (Cita cita : listaCitas) {
+		List<Cita> listaCitas = citaService.findCitasByDniPaciente(dni);
+		for (Cita cita : citaService.findCitasByDniPaciente(dni)) {
 			encriptador.desencriptarCita(cita);
 		}
 		return listaCitas;
@@ -145,28 +142,7 @@ public class CitaRestController {
 		return cita;
 
 	}
-
-	/*
-	 * //RespuestaHuecos?? List<String/int/date> getHuecos(dniMedico, dia, mes,
-	 * año)//fecha separada o completa{ List huecosLibres;
-	 * medico=medicoService.findByDni(dniMedico) //si se pone la duración de la cita
-	 * en Medico o en especialidad
-	 * 
-	 * horario=horarioService.findByDniAnd....(dniMedico, etc...)
-	 * duracionCita=horario.getDuracionCita() String[]/ArrayList<Date>
-	 * listaHoras=horario.getListaCitas()
-	 * 
-	 * for(i=hora_minima; i<=hora_maxima-duracioncita; i+=duracionCita){
-	 * if(!listaCitas.contains(i)){ huecosLibres.add(i); } }
-	 * 
-	 * return huecosLibres;
-	 * 
-	 * }
-	 * 
-	 * 
-	 */
 	
-	///Comprobar getMapping
 	@GetMapping("/citas/huecoslibres/{dniMedico}")
 	public ArrayList<String> getHuecos(@PathVariable("dniMedico") String dniMedico, int dia, int mes, int ano) {
 
@@ -181,11 +157,12 @@ public class CitaRestController {
 		LocalTime horaInicio = LocalTime.of(7, 00);
 		LocalTime horaFin = LocalTime.of(13, 00);	
 		horaFin = horaFin.minus(duracionCita, ChronoUnit.MINUTES);
-		
-		for (LocalTime i = horaInicio; i.equals(horaFin); i.plus(duracionCita, ChronoUnit.MINUTES)) {
+		LocalTime horaIncrementada = horaInicio.plus(duracionCita,ChronoUnit.MINUTES);
+		for (LocalTime i = horaInicio; i.equals(horaFin); i=horaIncrementada) {
 			for(int j=0; j<listaCitas.size(); j++) {
 		    	if(!((listaCitas.get(j).getHours()==i.getHour()) && (listaCitas.get(j).getMinutes()==i.getMinute()))) {
 		    		listaHuecosLibres.add(i.toString());	
+		    		horaIncrementada=i.plus(duracionCita,ChronoUnit.MINUTES);
 		    	}
 		    }
 		}
@@ -209,9 +186,7 @@ public class CitaRestController {
      */
 	@GetMapping("/citas/especialidades/{nombreEspecialidad}")
 	public String[] getEspecialidadesByid(@PathVariable ("nombreEspecialidad") String nombreEspecialidad){
-		Especialidad especialidad = new Especialidad();
-		especialidad = especialidadService.findEspecialidadByNombre(nombreEspecialidad);
-		return especialidad.get_listaMedicos();
+		return especialidadService.findEspecialidadByNombre(nombreEspecialidad).get_listaMedicos();
 	}
 	
 }

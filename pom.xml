@@ -126,7 +126,6 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<!-- <addClasspath>true</addClasspath> -->
 							<mainClass>com.example.backend.BackendApplication</mainClass>
 						</manifest>
 					</archive>

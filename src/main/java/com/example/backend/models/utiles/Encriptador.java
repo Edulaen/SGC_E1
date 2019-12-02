@@ -5,7 +5,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Date;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -53,7 +52,6 @@ public class Encriptador {
 			cipher.init(Cipher.ENCRYPT_MODE, key);
 			byte[] textobytes = texto.getBytes("utf-8");
 			byte[] cipherbytes = cipher.doFinal(textobytes);
-			// value = new BASE64Encoder().encode(cipherbytes);
 			value = Base64.getEncoder().encodeToString(cipherbytes);
 		} catch (NoSuchAlgorithmException ex) {
 			System.err.println(ex.getMessage());
@@ -79,7 +77,6 @@ public class Encriptador {
 	public String desencriptar(String texto) throws UnsupportedEncodingException {
 		String str = "";
 		try {
-			// byte[] value = new BASE64Decoder().decodeBuffer(texto);
 			byte[] value = Base64.getDecoder().decode(texto.getBytes("utf-8"));
 			cipher = Cipher.getInstance(algoritmo);
 			cipher.init(Cipher.DECRYPT_MODE, key);

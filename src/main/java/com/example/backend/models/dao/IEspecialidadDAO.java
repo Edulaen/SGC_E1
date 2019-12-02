@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import com.example.backend.models.entity.Especialidad;
-import com.example.backend.models.entity.Usuario;
 
 @Repository
 public interface IEspecialidadDAO extends MongoRepository<Especialidad, String> {
