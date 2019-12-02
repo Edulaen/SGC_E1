@@ -185,7 +185,7 @@ public class CitaRestController {
 		for (LocalTime i = horaInicio; i.equals(horaFin); i.plus(duracionCita, ChronoUnit.MINUTES)) {
 			for(int j=0; j<listaCitas.size(); j++) {
 		    	if(!((listaCitas.get(j).getHours()==i.getHour()) && (listaCitas.get(j).getMinutes()==i.getMinute()))) {
-		    		listaHuecosLibres.add(i.toString());	zz
+		    		listaHuecosLibres.add(i.toString());	
 		    	}
 		    }
 		}
