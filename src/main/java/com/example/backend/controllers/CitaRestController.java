@@ -181,11 +181,12 @@ public class CitaRestController {
 		LocalTime horaInicio = LocalTime.of(7, 00);
 		LocalTime horaFin = LocalTime.of(13, 00);	
 		horaFin = horaFin.minus(duracionCita, ChronoUnit.MINUTES);
-		
-		for (LocalTime i = horaInicio; i.equals(horaFin); i.plus(duracionCita, ChronoUnit.MINUTES)) {
+		LocalTime test = horaInicio.plus(duracionCita, ChronoUnit.MINUTES);
+		for (LocalTime i = horaInicio; i.equals(horaFin); i=test) {
 			for(int j=0; j<listaCitas.size(); j++) {
 		    	if(!((listaCitas.get(j).getHours()==i.getHour()) && (listaCitas.get(j).getMinutes()==i.getMinute()))) {
-		    		listaHuecosLibres.add(i.toString());	    		
+		    		listaHuecosLibres.add(i.toString());	
+		    		test=i.plus(duracionCita, ChronoUnit.MINUTES);
 		    	}
 		    }
 		}
