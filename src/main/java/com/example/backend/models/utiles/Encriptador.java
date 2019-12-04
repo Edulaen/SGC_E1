@@ -14,6 +14,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.validation.Valid;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 import com.example.backend.models.entity.Cita;
 import com.example.backend.models.entity.Medico;
 import com.example.backend.models.entity.Usuario;
@@ -25,6 +28,7 @@ public class Encriptador {
 	private String algoritmo;
 	private int keysize;
 	private String clave;
+	Logger logger = Logger.getGlobal();
 
 	public Encriptador(SecretKey key, Cipher cipher, String algoritmo, int keysize, String clave) {
 		super();
@@ -54,15 +58,15 @@ public class Encriptador {
 			byte[] cipherbytes = cipher.doFinal(textobytes);
 			value = Base64.getEncoder().encodeToString(cipherbytes);
 		} catch (NoSuchAlgorithmException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE, ex.getMessage());
 		} catch (NoSuchPaddingException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		} catch (InvalidKeyException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		} catch (IllegalBlockSizeException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		} catch (BadPaddingException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		}
 		return value;
 	}
@@ -83,15 +87,15 @@ public class Encriptador {
 			byte[] cipherbytes = cipher.doFinal(value);
 			str = new String(cipherbytes);
 		} catch (InvalidKeyException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		} catch (IllegalBlockSizeException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		} catch (BadPaddingException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		} catch (NoSuchAlgorithmException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		} catch (NoSuchPaddingException ex) {
-			System.err.println(ex.getMessage());
+			logger.log(Level.SEVERE,ex.getMessage());
 		}
 		return str;
 	}

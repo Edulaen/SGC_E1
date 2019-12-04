@@ -108,7 +108,8 @@ public class UsuarioRestController {
 	 */
 	// TODO Encriptar los dotos que faltan
 	@PostMapping("/usuarios")
-	public Usuario registrarUsuario(@Valid @RequestBody Usuario usuario) throws UnsupportedEncodingException {
+	public Usuario registrarUsuario(@Valid @RequestBody Object object) throws UnsupportedEncodingException {
+		Usuario usuario = (Usuario) object;
 		usuario.set_id(ObjectId.get());
 		usuario = encriptador.encriptarUsuario(usuario);
 		usuarioService.saveUser(usuario);
@@ -141,8 +142,9 @@ public class UsuarioRestController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@PutMapping("/usuarios/password/{id}")
-	public Usuario modificarPassword(@PathVariable("id") ObjectId id, @Valid @RequestBody Usuario usuario)
+	public Usuario modificarPassword(@PathVariable("id") ObjectId id, @Valid @RequestBody Object object)
 			throws UnsupportedEncodingException {
+		Usuario usuario = (Usuario) object;
 		usuario.set_id(id);
 		usuario = encriptador.encriptarUsuario(usuario);
 		usuario.setPassword(encriptador.encriptarPassword(usuario.getPassword()));
@@ -159,8 +161,9 @@ public class UsuarioRestController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@PutMapping("/usuarios/datosContacto/{id}")
-	public Usuario modificarDatosContacto(@PathVariable("id") ObjectId id, @Valid @RequestBody Usuario usuario)
+	public Usuario modificarDatosContacto(@PathVariable("id") ObjectId id, @Valid @RequestBody Object object)
 			throws UnsupportedEncodingException {
+		Usuario usuario = (Usuario) object;
 		usuario.set_id(id);
 		usuario = encriptador.encriptarUsuario(usuario);
 		usuarioService.saveUser(usuario);
@@ -174,8 +177,9 @@ public class UsuarioRestController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@PutMapping("/usuarios/datospersonales/{id}")
-	public Usuario modificarDatosPersonales(@PathVariable("id") ObjectId id, @Valid @RequestBody Usuario usuario)
+	public Usuario modificarDatosPersonales(@PathVariable("id") ObjectId id, @Valid @RequestBody Object object)
 			throws UnsupportedEncodingException {
+		Usuario usuario = (Usuario) object;
 		usuario = encriptador.encriptarUsuario(usuario);
 		usuarioService.saveUser(usuario);
 		return usuario;
@@ -184,7 +188,6 @@ public class UsuarioRestController {
 	
 	@GetMapping("/especialidades")
 	public List<Especialidad> getAllEspecialidades() {
-		System.out.println();
 		return especialidadService.findAll();
 	}
 

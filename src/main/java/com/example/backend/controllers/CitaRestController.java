@@ -109,7 +109,8 @@ public class CitaRestController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@PostMapping("/citas")
-	public Cita addCita(@Valid @RequestBody Cita cita) throws UnsupportedEncodingException {
+	public Cita addCita(@Valid @RequestBody Object object) throws UnsupportedEncodingException {
+		Cita cita = (Cita) object;
 		cita.set_id(ObjectId.get());
 		encriptador.encriptarCita(cita);
 		citaService.saveCita(cita);
@@ -134,8 +135,9 @@ public class CitaRestController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@PutMapping("/citas/{id}")
-	public Cita modificarFechaCita(@PathVariable("id") ObjectId id, @Valid @RequestBody Cita cita)
+	public Cita modificarFechaCita(@PathVariable("id") ObjectId id, @Valid @RequestBody Object object)
 			throws UnsupportedEncodingException {
+		Cita cita = (Cita) object;
 		cita.set_id(id);
 		cita = encriptador.encriptarCita(cita);
 		citaService.saveCita(cita);
@@ -144,15 +146,15 @@ public class CitaRestController {
 	}
 	
 	@GetMapping("/citas/huecoslibres/{dniMedico}")
-	public ArrayList<String> getHuecos(@PathVariable("dniMedico") String dniMedico, int dia, int mes, int ano) {
+	public List<String> getHuecos(@PathVariable("dniMedico") String dniMedico, int dia, int mes, int ano) {
 
-		ArrayList<String> listaHuecosLibres = new ArrayList<String>();
+		List<String> listaHuecosLibres = new ArrayList<String>();
 		Medico medico = usuarioService.findMedicoByDni(dniMedico);
 		Horario horario = horarioService.findHorarioByDnimedicoAndDiaAndMesAndAno(dniMedico, dia, mes, ano);
 		Especialidad especialidad=especialidadService.findEspecialidadByNombre(medico.getEspecialidad());
 		int duracionCita = especialidad.get_duracionCita();
 		
-		ArrayList<Date> listaCitas = horario.getListaCitas();
+		List<Date> listaCitas = horario.getListaCitas();
 		
 		LocalTime horaInicio = LocalTime.of(7, 00);
 		LocalTime horaFin = LocalTime.of(13, 00);	

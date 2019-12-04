@@ -2,6 +2,7 @@ package com.example.backend.models.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -16,7 +17,7 @@ public class Horario {
 	private int dia;
 	private int mes;
 	private int ano;
-	private ArrayList<Date> listaCitas = new ArrayList<Date>();
+	private List<Date> listaCitas = new ArrayList<>();
 	
 	public String get_id() {
 		return _id.toHexString();
@@ -58,11 +59,11 @@ public class Horario {
 		this.ano = ano;
 	}
 
-	public ArrayList<Date> getListaCitas() {
+	public List<Date> getListaCitas() {
 		return listaCitas;
 	}
 
-	public void setListaCitas(ArrayList<Date> listaCitas) {
+	public void setListaCitas(List<Date> listaCitas) {
 		this.listaCitas = listaCitas;
 	}
 
